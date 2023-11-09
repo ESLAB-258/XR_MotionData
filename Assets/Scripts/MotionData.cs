@@ -6,11 +6,12 @@ using System.IO;
 using UnityEngine.UI;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
+using System.Net.NetworkInformation;
 
 public class MotionData : MonoBehaviour
 {
     [HideInInspector]
-    public string fileName/* = "Assets/CSV/HandData.csv"*/;
+    public string fileName;
 
     enum E_SPORTS_NAME
     {
@@ -38,6 +39,12 @@ public class MotionData : MonoBehaviour
     Text[] rotTexts;
 
     [SerializeField]
+    Text leftShoeText;
+
+    [SerializeField]
+    Text rightShoeText;
+
+    [SerializeField]
     E_SPORTS_NAME sports = E_SPORTS_NAME.BOWLING;
 
     [SerializeField]
@@ -57,6 +64,9 @@ public class MotionData : MonoBehaviour
 
     [SerializeField]
     string actNumber;
+
+    [SerializeField]
+    KATXRWalker katXRWalker;
 
     FileStream posRotFs;
     StreamWriter posRotSw;
@@ -86,7 +96,7 @@ public class MotionData : MonoBehaviour
 
         string sportsStr = null;
 
-        switch(sports)
+        switch (sports)
         {
             case E_SPORTS_NAME.BOWLING:
                 sportsStr = "Bowling";
@@ -116,7 +126,8 @@ public class MotionData : MonoBehaviour
 
         }
 
-        if (string.IsNullOrEmpty(sportsStr) || string.IsNullOrEmpty(generation) || string.IsNullOrEmpty(genderStr) || string.IsNullOrEmpty(age) || 
+        /*WRITE CSV*/
+        if (string.IsNullOrEmpty(sportsStr) || string.IsNullOrEmpty(generation) || string.IsNullOrEmpty(genderStr) || string.IsNullOrEmpty(age) ||
             string.IsNullOrEmpty(subjectName) || string.IsNullOrEmpty(date) || string.IsNullOrEmpty(actNumber))
         {
             Debug.LogError("You need to more information for making fileName.");
@@ -136,20 +147,22 @@ public class MotionData : MonoBehaviour
         string[] posRotStr = { "Pos", "Rot" };
         string[] physicsStr = { "Velocity", "AngularVelocity", "Acceleration", "AngularAcceleration" };
 
-        string[] bodyStr = { "HMD", "LeftController", "RightController", "Waist", "LeftWrist", "RightWrist", "LeftFoot", "RightFoot" };
+        string[] viveDeviceStr = { "HMD", "LeftController", "RightController", "Waist", "LeftWrist", "RightWrist" };
+        string[] treadMillStr = { "LeftShoe2DAxis", "RightShoe2DAxis" };
+
 
         //isWriting = false;
 
         posRotSchema += "TimeStamp,";
         physicsSchema += "TimeStamp,";
 
-        for (int i = 0; i < bodyStr.Length; i++)
+        for (int i = 0; i < viveDeviceStr.Length; i++)
         {
             for (int j = 0; j < posRotStr.Length; j++)
             {
-                posRotSchema += bodyStr[i] + posRotStr[j];
+                posRotSchema += viveDeviceStr[i] + posRotStr[j];
 
-                if (i != bodyStr.Length || j != posRotStr.Length)
+                if (i != viveDeviceStr.Length || j != posRotStr.Length)
                 {
                     posRotSchema += ",";
                 }
@@ -157,12 +170,22 @@ public class MotionData : MonoBehaviour
 
             for (int j = 0; j < physicsStr.Length; j++)
             {
-                physicsSchema += bodyStr[i] + physicsStr[j];
+                physicsSchema += viveDeviceStr[i] + physicsStr[j];
 
-                if (i != bodyStr.Length || j != physicsStr.Length)
+                if (i != viveDeviceStr.Length || j != physicsStr.Length)
                 {
                     physicsSchema += ",";
                 }
+            }
+        }
+
+        for (int k = 0; k < treadMillStr.Length; k++)
+        {
+            physicsSchema += treadMillStr[k];
+
+            if (k != viveDeviceStr.Length || k != physicsStr.Length)
+            {
+                physicsSchema += ",";
             }
         }
 
@@ -174,63 +197,81 @@ public class MotionData : MonoBehaviour
 
     IEnumerator CoCollectMotionData()
     {
+        string posRotData = null;
+        string physicsData = null;
+
+        Vector3 devicePos = Vector3.zero;
+        Quaternion deviceRot = Quaternion.identity;
+
+        Vector3 velocity = Vector3.zero;
+        Vector3 angularVelocity = Vector3.zero;
+        Vector3 acceleration = Vector3.zero;
+        Vector3 angularAcceleration = Vector3.zero;
+
+        Vector3 leftShoe2dAxis = Vector3.zero;
+        Vector3 rightShoe2dAxis = Vector3.zero;
+
+        int i = 0;
+
         while (true)
         {
             timerStr = Timer();
 
-            //if (isUpdating)
+            i = 0;
+
+            posRotData = null;
+            physicsData = null;
+
+            posRotData += timerStr.ToString() + ",";
+            physicsData += timerStr.ToString() + ",";
+
+            timeText.text = timerStr;
+
+            foreach (var device in devices)
             {
-                string posRotData = null;
-                string physicsData = null;
+                devicePos = device.position;
+                deviceRot = device.rotation;
 
-                int i = 0;
+                velocity = (devicePos - prevPositions[i]) / Time.fixedDeltaTime;
+                angularVelocity = (deviceRot.eulerAngles - prevRotations[i].eulerAngles) / Time.fixedDeltaTime;
+                acceleration = (velocity - prevVelocities[i]) / Time.fixedDeltaTime;
+                angularAcceleration = (angularVelocity - prevAnguarVelocities[i]) / Time.fixedDeltaTime;
 
-                posRotData += timerStr.ToString() + ",";
-                physicsData += timerStr.ToString() + ",";
+                prevPositions[i] = devicePos;
+                prevRotations[i] = deviceRot;
+                prevVelocities[i] = velocity;
+                prevAnguarVelocities[i] = angularVelocity;
 
-                timeText.text = timerStr;
+                posRotData += devicePos.ToString("F2") + "," + deviceRot.ToString("F2");
 
-                foreach (var device in devices)
+                physicsData += velocity.ToString("F2") + "," + angularVelocity.ToString("F2") +
+                    "," + acceleration.ToString("F2") + "," + angularAcceleration.ToString("F2");
+
+                if (i != devices.Length)
                 {
-                    Vector3 devicePos = device.position;
-                    Quaternion deviceRot = device.rotation;
-
-                    Vector3 velocity = (devicePos - prevPositions[i]) / Time.fixedDeltaTime;
-                    Vector3 angularVelocity = (deviceRot.eulerAngles - prevRotations[i].eulerAngles) / Time.fixedDeltaTime;
-                    Vector3 acceleration = (velocity - prevVelocities[i]) / Time.fixedDeltaTime;
-                    Vector3 angularAcceleration = (angularVelocity - prevAnguarVelocities[i]) / Time.fixedDeltaTime;
-
-                    prevPositions[i] = devicePos;
-                    prevRotations[i] = deviceRot;
-                    prevVelocities[i] = velocity;
-                    prevAnguarVelocities[i] = angularVelocity;
-
-                    posRotData += devicePos.ToString("F2") + "," + deviceRot.ToString("F2");
-
-                    physicsData += velocity.ToString("F2") + "," + angularVelocity.ToString("F2") +
-                        "," + acceleration.ToString("F2") + "," + angularAcceleration.ToString("F2");
-
-                    //physicsData2 = time + "," + velocity.magnitude.ToString("F2") + "," + angularVelocity.magnitude.ToString("F2") +
-                    //    "," + acceleration.magnitude.ToString("F2") + "," + angularAcceleration.magnitude.ToString("F2");
-
-                    if (i != devices.Length)
-                    {
-                        posRotData += ",";
-                        physicsData += ",";
-                    }
-
-                    posTexts[i].text = devicePos.ToString("F2");
-                    rotTexts[i].text = deviceRot.ToString("F2");
-
-                    i++;
+                    posRotData += ",";
+                    physicsData += ",";
                 }
 
-                posRotSw.WriteLine(posRotData);
-                physicsSw.WriteLine(physicsData);
-                Debug.Log(physicsData);
+                posTexts[i].text = devicePos.ToString("F2");
+                rotTexts[i].text = deviceRot.ToString("F2");
 
-                isUpdating = false;
+                i++;
             }
+
+            KATNativeSDK.TreadMillData walkStatus = KATNativeSDK.GetWalkStatus();
+            WalkC2ExtraData.extraInfo walkData = WalkC2ExtraData.GetExtraInfoC2(walkStatus);
+
+            leftShoe2dAxis = walkData.lFootSpeed;
+            rightShoe2dAxis = walkData.rFootSpeed;
+
+            leftShoeText.text = leftShoe2dAxis.ToString("F2");
+            rightShoeText.text = rightShoe2dAxis.ToString("F2");
+
+            physicsData += leftShoe2dAxis.ToString("F2") + "," + rightShoe2dAxis.ToString("F2") + ",";
+
+            posRotSw.WriteLine(posRotData);
+            physicsSw.WriteLine(physicsData);
 
             yield return new WaitForFixedUpdate();
         }

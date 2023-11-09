@@ -36,11 +36,11 @@ public class KATXRWalker : MonoBehaviour
     {
          
         var ws = KATNativeSDK.GetWalkStatus();
-        var device = LocoSExtraData.GetExtraInfoLoco(ws);
+        var device = WalkC2ExtraData.GetExtraInfoC2(ws);
         //ÓÒ½Åpitch
-        //Debug.Log(device.R_Pitch);
+        //Debug.Log(ws.deviceDatas);        
         //×ó½Åpitch
-        Debug.Log(device.L_Pitch);
+        Debug.Log(device.lFootSpeed);
 
         if (!ws.connected)
         {
