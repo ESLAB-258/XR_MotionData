@@ -40,7 +40,7 @@ public class KATXRWalker : MonoBehaviour
         //ÓÒ½Åpitch
         //Debug.Log(ws.deviceDatas);        
         //×ó½Åpitch
-        Debug.Log(device.lFootSpeed);
+        //Debug.Log(device.lFootSpeed);
 
         if (!ws.connected)
         {

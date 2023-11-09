@@ -279,13 +279,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe5e4c94bb02d94380ec5e72562247f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootTrackersTr: {fileID: 3457137409276109555}
+  rootTrackersTr: {fileID: 0}
   childTrackersTr:
   - {fileID: 963194228}
-  - {fileID: 6997306650302400152}
-  - {fileID: 6765995444026780937}
-  - {fileID: 2297192629672890327}
-  - {fileID: 7068878671223843136}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   lineRenderers:
   - {fileID: 9133192766267033460}
   - {fileID: 5944302852353386854}
@@ -1086,6 +1086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001686446}
   - component: {fileID: 1001686447}
+  - component: {fileID: 1001686448}
   m_Layer: 0
   m_Name: XR_MotionData
   m_TagString: Untagged
@@ -1159,6 +1160,18 @@ MonoBehaviour:
   date: 20231103
   actNumber: 2
   katXRWalker: {fileID: 1646584674}
+--- !u!114 &1001686448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001686445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59da7226e205644c86995049aff4708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1079351328
 GameObject:
   m_ObjectHideFlags: 0
@@ -5431,66 +5444,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6249692087369475906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_IgnoreTrackingState: 0
-  m_PositionInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Position
-      m_Type: 0
-      m_ExpectedControlType: Vector3
-      m_Id: 47cce297-47d6-4f13-9e7f-2099ddbef9b9
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -3635739917349357512, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_RotationInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Rotation
-      m_Type: 0
-      m_ExpectedControlType: Quaternion
-      m_Id: c44a889f-309c-41c1-897d-242f38ce55dc
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 3582612091416713409, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_TrackingStateInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tracking State
-      m_Type: 0
-      m_ExpectedControlType: Integer
-      m_Id: 853d14c6-6765-4bf8-904c-5c7be6330d46
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8343597927704131721, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_PositionAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 08dafa3a-1419-4b31-8965-7200ef24fdbc
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  m_RotationAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 0b582eb0-3057-40d4-84f6-82ece189aff1
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  index: -1
+  origin: {fileID: 0}
 --- !u!1 &6342533726308816983
 GameObject:
   m_ObjectHideFlags: 0
@@ -5660,66 +5618,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2640447475840149688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_IgnoreTrackingState: 0
-  m_PositionInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Position
-      m_Type: 0
-      m_ExpectedControlType: Vector3
-      m_Id: 8ab2b832-ae45-4bfd-acbe-c80740a280d2
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6382410241683211312, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_RotationInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Rotation
-      m_Type: 0
-      m_ExpectedControlType: Quaternion
-      m_Id: 780c965d-7fe5-409c-a01a-44eebc3cd059
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 3207997175858768279, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_TrackingStateInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tracking State
-      m_Type: 0
-      m_ExpectedControlType: Integer
-      m_Id: 3b69881e-65a5-41f7-9976-5f2003ddd024
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6137186190632523572, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_PositionAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: f6cc2a76-fd10-4d6c-bca1-da95482117b8
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  m_RotationAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 6f62e9bf-7d22-4a8c-839a-1f76ad44d662
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  index: -1
+  origin: {fileID: 0}
 --- !u!222 &6798492728030666919
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5951,66 +5854,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1754724541242213161}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_IgnoreTrackingState: 0
-  m_PositionInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Position
-      m_Type: 0
-      m_ExpectedControlType: Vector3
-      m_Id: 20ff4f5f-5640-4b42-90e3-1eb4f207d0f8
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -7265615633278981353, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_RotationInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Rotation
-      m_Type: 0
-      m_ExpectedControlType: Quaternion
-      m_Id: 50c06979-da74-4707-8337-0831e402a2bb
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 2321589891069988688, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_TrackingStateInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tracking State
-      m_Type: 0
-      m_ExpectedControlType: Integer
-      m_Id: 55617131-4c21-4e92-a559-4780b8b4c58c
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 5764377053864461777, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_PositionAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: aa6a394e-af0b-480e-8a46-b8cd3c791d67
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  m_RotationAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 6c14741e-6520-48b6-a412-4cd1155a0780
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  index: -1
+  origin: {fileID: 0}
 --- !u!114 &7032802980419427492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6070,66 +5918,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1970560465491078385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_IgnoreTrackingState: 0
-  m_PositionInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Position
-      m_Type: 0
-      m_ExpectedControlType: Vector3
-      m_Id: 1e666419-dd9d-4931-bf48-b58e37fba97d
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 5031424559810160967, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_RotationInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Rotation
-      m_Type: 0
-      m_ExpectedControlType: Quaternion
-      m_Id: e35b8333-7a20-457f-8a21-497b810b47c6
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 4991177131623331657, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_TrackingStateInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tracking State
-      m_Type: 0
-      m_ExpectedControlType: Integer
-      m_Id: 465af9d8-46cd-4ab8-85ab-5c1d5457d1e4
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -952684718489968294, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_PositionAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 5e9b8843-7ee7-447a-8a1d-c7ecac856fb3
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  m_RotationAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 1c6ddc31-e542-4973-a474-4665e083af4b
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  index: -1
+  origin: {fileID: 0}
 --- !u!222 &7204290993010168667
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6183,66 +5976,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7394947395826190950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_IgnoreTrackingState: 0
-  m_PositionInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Position
-      m_Type: 0
-      m_ExpectedControlType: Vector3
-      m_Id: a4492dfb-9338-4133-8520-f4a2718aae5a
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -8451324879277102680, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_RotationInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Rotation
-      m_Type: 0
-      m_ExpectedControlType: Quaternion
-      m_Id: 6b8daee5-0b6d-4ae6-a086-4117d0f39cf5
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8267767614061277642, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_TrackingStateInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Tracking State
-      m_Type: 0
-      m_ExpectedControlType: Integer
-      m_Id: 76d2d8b7-6970-4db2-bc30-670b15f13bba
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -2775349818361249526, guid: 50c472fe4e173b642bc249d3a44ffff9, type: 3}
-  m_PositionAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 4f228765-a6b8-4008-9b93-a4ea2f64505c
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  m_RotationAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 086688ce-16a1-4a88-89a7-4008a2796245
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  index: -1
+  origin: {fileID: 0}
 --- !u!114 &7401980828945048632
 MonoBehaviour:
   m_ObjectHideFlags: 0
