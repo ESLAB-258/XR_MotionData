@@ -102,7 +102,7 @@ public class MotionData : MonoBehaviour
         switch (sports)
         {
             case E_SPORTS_NAME.BOWLING:
-                sportsStr = "Football";
+                sportsStr = "Bowling";
                 break;
             case E_SPORTS_NAME.GOLF:
                 sportsStr = "Golf";
