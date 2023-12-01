@@ -48,10 +48,10 @@ public class MotionData : MonoBehaviour
     E_SPORTS_NAME sports = E_SPORTS_NAME.BOWLING;
 
     [SerializeField]
-    E_GENDER gender = E_GENDER.MALE;
+    string generation;
 
     [SerializeField]
-    string generation;
+    E_GENDER gender = E_GENDER.MALE;
 
     [SerializeField]
     string age;
@@ -73,6 +73,9 @@ public class MotionData : MonoBehaviour
 
     FileStream physicsFs;
     StreamWriter physicsSw;
+
+    FileStream scalarFs;
+    StreamWriter scalarSw;
 
     Quaternion[] prevRotations;
     Vector3[] prevPositions;
@@ -141,13 +144,18 @@ public class MotionData : MonoBehaviour
         physicsFs = new FileStream("Assets/CSV/" + fileName + "_Physics.csv", FileMode.Create, FileAccess.Write);
         physicsSw = new StreamWriter(physicsFs, System.Text.Encoding.UTF8);
 
+        scalarFs = new FileStream("Assets/CSV/" + fileName + "_Scalar.csv", FileMode.Create, FileAccess.Write);
+        scalarSw = new StreamWriter(scalarFs, System.Text.Encoding.UTF8);
+
         string posRotSchema = null;
         string physicsSchema = null;
+        string scalarSchema = null;
 
         string[] posRotStr = { "Pos", "Rot" };
         string[] physicsStr = { "Velocity", "AngularVelocity", "Acceleration", "AngularAcceleration" };
+        string[] axisStr = { "X", "Y", "Z" };
 
-        string[] viveDeviceStr = { "HMD", "LeftController", "RightController", "Waist", "LeftWrist", "RightWrist" };
+        string[] viveDeviceStr = { "HMD", "LeftController", "RightController", "Waist", "LeftWrist", "RightWrist", "LeftFoot", "RightFoot" };
         string[] treadMillStr = { "LeftShoe2DAxis", "RightShoe2DAxis" };
 
 
@@ -155,6 +163,7 @@ public class MotionData : MonoBehaviour
 
         posRotSchema += "TimeStamp,";
         physicsSchema += "TimeStamp,";
+        scalarSchema += "TimeStamp,";
 
         for (int i = 0; i < viveDeviceStr.Length; i++)
         {
@@ -170,27 +179,48 @@ public class MotionData : MonoBehaviour
 
             for (int j = 0; j < physicsStr.Length; j++)
             {
-                physicsSchema += viveDeviceStr[i] + physicsStr[j];
+                scalarSchema += viveDeviceStr[i] + physicsStr[j];
 
-                if (i != viveDeviceStr.Length || j != physicsStr.Length)
+                for (int k = 0; k < axisStr.Length; k++)
                 {
-                    physicsSchema += ",";
+                    physicsSchema += viveDeviceStr[i] + physicsStr[j] + axisStr[k];
+
+                    if (k != axisStr.Length)
+                    {
+                        physicsSchema += ",";
+                    }
+                }
+
+                if (i != viveDeviceStr.Length)
+                {
+                    scalarSchema += ",";
                 }
             }
         }
 
         for (int k = 0; k < treadMillStr.Length; k++)
         {
-            physicsSchema += treadMillStr[k];
+            scalarSchema += treadMillStr[k];
 
-            if (k != viveDeviceStr.Length || k != physicsStr.Length)
+            for (int l = 0; l < axisStr.Length; l++)
             {
-                physicsSchema += ",";
+                physicsSchema += treadMillStr[k] + axisStr[l];
+
+                if (k != axisStr.Length)
+                {
+                    physicsSchema += ",";
+                }
+            }
+
+            if (k != treadMillStr.Length)
+            {
+                scalarSchema += ",";
             }
         }
 
         posRotSw.WriteLine(posRotSchema);
         physicsSw.WriteLine(physicsSchema);
+        scalarSw.WriteLine(scalarSchema);
 
         StartCoroutine(CoCollectMotionData());
     }
@@ -199,6 +229,7 @@ public class MotionData : MonoBehaviour
     {
         string posRotData = null;
         string physicsData = null;
+        string scalarData = null;
 
         Vector3 devicePos = Vector3.zero;
         Quaternion deviceRot = Quaternion.identity;
@@ -221,9 +252,11 @@ public class MotionData : MonoBehaviour
 
             posRotData = null;
             physicsData = null;
+            scalarData = null;
 
             posRotData += timerStr.ToString() + ",";
             physicsData += timerStr.ToString() + ",";
+            scalarData += timerStr.ToString() + ",";
 
             timeText.text = timerStr;
 
@@ -244,13 +277,19 @@ public class MotionData : MonoBehaviour
 
                 posRotData += devicePos.ToString("F2") + "," + deviceRot.ToString("F2");
 
-                physicsData += velocity.ToString("F2") + "," + angularVelocity.ToString("F2") +
-                    "," + acceleration.ToString("F2") + "," + angularAcceleration.ToString("F2");
+                physicsData += velocity.x.ToString("F2") + "," + velocity.y.ToString("F2") + "," + velocity.z.ToString("F2") + "," 
+                        + angularVelocity.x.ToString("F2") + "," + angularVelocity.y.ToString("F2") +"," +angularVelocity.z.ToString("F2") +","
+                        + acceleration.x.ToString("F2") + "," + acceleration.y.ToString("F2") + "," + acceleration.z.ToString("F2") + "," 
+                        + angularAcceleration.x.ToString("F2") + "," + angularAcceleration.y.ToString("F2") + "," + angularAcceleration.z.ToString("F2");
+
+                scalarData += velocity.magnitude.ToString("F2") + "," + angularVelocity.magnitude.ToString("F2") + ","
+                            + acceleration.magnitude.ToString("F2") + "," + angularAcceleration.magnitude.ToString("F2");
 
                 if (i != devices.Length)
                 {
                     posRotData += ",";
                     physicsData += ",";
+                    scalarData += ",";
                 }
 
                 posTexts[i].text = devicePos.ToString("F2");
@@ -268,10 +307,14 @@ public class MotionData : MonoBehaviour
             leftShoeText.text = leftShoe2dAxis.ToString("F2");
             rightShoeText.text = rightShoe2dAxis.ToString("F2");
 
-            physicsData += leftShoe2dAxis.ToString("F2") + "," + rightShoe2dAxis.ToString("F2") + ",";
+            physicsData += leftShoe2dAxis.x.ToString("F2") + "," + leftShoe2dAxis.y.ToString("F2") + "," + leftShoe2dAxis.z.ToString("F2") + ","
+                        + rightShoe2dAxis.x.ToString("F2") + "," + rightShoe2dAxis.y.ToString("F2") + "," + rightShoe2dAxis.z.ToString("F2") + ",";
+
+            scalarData += leftShoe2dAxis.magnitude.ToString("F2") + "," + rightShoe2dAxis.magnitude.ToString("F2") + ",";
 
             posRotSw.WriteLine(posRotData);
             physicsSw.WriteLine(physicsData);
+            scalarSw.WriteLine(scalarData);
 
             yield return new WaitForFixedUpdate();
         }
@@ -293,6 +336,9 @@ public class MotionData : MonoBehaviour
 
         physicsSw.Close();
         physicsFs.Close();
+
+        scalarSw.Close();
+        scalarFs.Close();
 
         StopCoroutine(CoCollectMotionData());
     }
