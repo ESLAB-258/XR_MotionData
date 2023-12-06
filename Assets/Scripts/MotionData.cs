@@ -4,28 +4,9 @@ using UnityEngine;
 using System;
 using System.IO;
 using UnityEngine.UI;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.XR;
-using System.Net.NetworkInformation;
 
 public class MotionData : MonoBehaviour
 {
-    [HideInInspector]
-    public string fileName;
-
-    enum E_SPORTS_NAME
-    {
-        BOWLING = 0,
-        GOLF,
-        WALKING,
-    }
-    enum E_GENDER
-    {
-        MALE = 0,
-        FEMALE,
-        OTHERS,
-    }
-
     [SerializeField]
     Transform[] devices;
 
@@ -43,27 +24,6 @@ public class MotionData : MonoBehaviour
 
     [SerializeField]
     Text rightShoeText;
-
-    [SerializeField]
-    E_SPORTS_NAME sports = E_SPORTS_NAME.BOWLING;
-
-    [SerializeField]
-    string generation;
-
-    [SerializeField]
-    E_GENDER gender = E_GENDER.MALE;
-
-    [SerializeField]
-    string age;
-
-    [SerializeField]
-    string subjectName;
-
-    [SerializeField]
-    string date;
-
-    [SerializeField]
-    string actNumber;
 
     [SerializeField]
     KATXRWalker katXRWalker;
@@ -85,71 +45,51 @@ public class MotionData : MonoBehaviour
     string timerStr = @"00:00:00.000";
     float totalSeconds;
 
-    bool isUpdating;
+    string posRotSchema = null;
+    string physicsSchema = null;
+    string scalarSchema = null;
 
     private void OnEnable()
     {
-        isUpdating = false;
-
         prevPositions = new Vector3[devices.Length];
         prevRotations = new Quaternion[devices.Length];
         prevVelocities = new Vector3[devices.Length];
         prevAnguarVelocities = new Vector3[devices.Length];
         prevAnguarVelocities = new Vector3[devices.Length];
 
-        string sportsStr = null;
+        //StartCoroutine(CoCollectMotionData());
+    }
 
-        switch (sports)
+    public void MakeFileName(string sportsStr, string generation, string genderStr, string age, string subjectName, string date, string actNumber)
+    {
+        if (posRotSw != null && physicsSw != null && scalarSw != null)
         {
-            case E_SPORTS_NAME.BOWLING:
-                sportsStr = "Bowling";
-                break;
-            case E_SPORTS_NAME.GOLF:
-                sportsStr = "Golf";
-                break;
-            case E_SPORTS_NAME.WALKING:
-                sportsStr = "Walking";
-                break;
+            posRotSw.Close();
+            posRotFs.Close();
 
+            physicsSw.Close();
+            physicsFs.Close();
+
+            scalarSw.Close();
+            scalarFs.Close();
         }
 
-        string genderStr = null;
-
-        switch (gender)
-        {
-            case E_GENDER.MALE:
-                genderStr = "Male";
-                break;
-            case E_GENDER.FEMALE:
-                genderStr = "Female";
-                break;
-            case E_GENDER.OTHERS:
-                genderStr = "Other";
-                break;
-
-        }
-
-        /*WRITE CSV*/
         if (string.IsNullOrEmpty(sportsStr) || string.IsNullOrEmpty(generation) || string.IsNullOrEmpty(genderStr) || string.IsNullOrEmpty(age) ||
             string.IsNullOrEmpty(subjectName) || string.IsNullOrEmpty(date) || string.IsNullOrEmpty(actNumber))
         {
             Debug.LogError("You need to more information for making fileName.");
         }
 
-        fileName = sportsStr + "_" + generation + "_" + genderStr + "_" + age + "_" + subjectName + "_" + date + "_" + actNumber;
+        string fileName = sportsStr + "_" + generation + "_" + genderStr + "_" + age + "_" + subjectName + "_" + date + "_" + actNumber;
 
-        posRotFs = new FileStream("Assets/CSV/" + fileName + ".csv", FileMode.Create, FileAccess.Write);
+        posRotFs = new FileStream("Assets/CSV/" + fileName + ".txt", FileMode.Create, FileAccess.Write);
         posRotSw = new StreamWriter(posRotFs, System.Text.Encoding.UTF8);
 
-        physicsFs = new FileStream("Assets/CSV/" + fileName + "_Physics.csv", FileMode.Create, FileAccess.Write);
+        physicsFs = new FileStream("Assets/CSV/" + fileName + "_Physics.txt", FileMode.Create, FileAccess.Write);
         physicsSw = new StreamWriter(physicsFs, System.Text.Encoding.UTF8);
 
         scalarFs = new FileStream("Assets/CSV/" + fileName + "_Scalar.csv", FileMode.Create, FileAccess.Write);
         scalarSw = new StreamWriter(scalarFs, System.Text.Encoding.UTF8);
-
-        string posRotSchema = null;
-        string physicsSchema = null;
-        string scalarSchema = null;
 
         string[] posRotStr = { "Pos", "Rot" };
         string[] physicsStr = { "Velocity", "AngularVelocity", "Acceleration", "AngularAcceleration" };
@@ -217,12 +157,6 @@ public class MotionData : MonoBehaviour
                 scalarSchema += ",";
             }
         }
-
-        posRotSw.WriteLine(posRotSchema);
-        physicsSw.WriteLine(physicsSchema);
-        scalarSw.WriteLine(scalarSchema);
-
-        StartCoroutine(CoCollectMotionData());
     }
 
     IEnumerator CoCollectMotionData()
@@ -340,6 +274,6 @@ public class MotionData : MonoBehaviour
         scalarSw.Close();
         scalarFs.Close();
 
-        StopCoroutine(CoCollectMotionData());
+        //StopCoroutine(CoCollectMotionData());
     }
 }

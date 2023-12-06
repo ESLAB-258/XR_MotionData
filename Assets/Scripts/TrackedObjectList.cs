@@ -6,8 +6,14 @@ using Valve.VR;
 
 public class TrackedObjectList : MonoBehaviour
 {
+    List<string> trackerList;
+    List<string> indexList;
+
     private void Start()
     {
+        trackerList = new List<string>();
+        indexList = new List<string>();
+        trackerList.Add("None");
         ListDevices();
     }
 
@@ -21,11 +27,18 @@ public class TrackedObjectList : MonoBehaviour
             OpenVR.System.GetStringTrackedDeviceProperty((uint)i, ETrackedDeviceProperty.Prop_SerialNumber_String, sb, OpenVR.k_unMaxPropertyStringSize, ref error);
             var SerialNumber = sb.ToString();
 
+            trackerList.Add(SerialNumber);
+
             OpenVR.System.GetStringTrackedDeviceProperty((uint)i, ETrackedDeviceProperty.Prop_ModelNumber_String, sb, OpenVR.k_unMaxPropertyStringSize, ref error);
             var ModelNumber = sb.ToString();
             
             if (SerialNumber.Length > 0 || ModelNumber.Length > 0)
                 Debug.Log("Device " + i.ToString() + " = " + SerialNumber + " | " + ModelNumber);
         }
+    }
+
+    public List<string> GetTrackerList()
+    {
+        return trackerList;
     }
 }
